@@ -54,7 +54,7 @@ app.post(
 
         res.status(201).json({
           success : true,
-          data : "https://justtoken.vercel.app/api/v1/metadata.json?key=" + key,
+          data : process.env.METADATA_LINK + key,
         });
     } catch (error) {
         console.error("Error in upload route:", error);

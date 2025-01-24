@@ -39,7 +39,7 @@ export function TokenLaunchpad() {
             return ;
         }
 
-        const response = await axios.post("https://justtoken.vercel.app/api/v1/upload/metadata", formData , {
+        const response = await axios.post(import.meta.env.VITE_METADATA_LINK, formData , {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
