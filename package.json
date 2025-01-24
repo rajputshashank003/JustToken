@@ -14,5 +14,5 @@
     "remove_build": "rm -rf api/public",
     "lint": "eslint .",
     "preview": "vite preview"
-  },
+  }
 }
