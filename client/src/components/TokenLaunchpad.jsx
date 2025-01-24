@@ -38,8 +38,7 @@ export function TokenLaunchpad() {
             console.log("insufficient data");
             return ;
         }
-
-        const response = await axios.post(import.meta.env.VITE_METADATA_LINK, formData , {
+        const response = await axios.post("https://justtoken-metadata.vercel.app/api/v1/upload/metadata", formData , {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
@@ -63,66 +62,66 @@ export function TokenLaunchpad() {
             additionalMetadata: []
         };
         console.log(metadata);
-        const mintLen = getMintLen([ExtensionType.MetadataPointer]);
-        const metadataLen = TYPE_SIZE + LENGTH_SIZE + pack(metadata).length;
+        // const mintLen = getMintLen([ExtensionType.MetadataPointer]);
+        // const metadataLen = TYPE_SIZE + LENGTH_SIZE + pack(metadata).length;
 
-        const lamports = await connection.getMinimumBalanceForRentExemption(mintLen + metadataLen);
+        // const lamports = await connection.getMinimumBalanceForRentExemption(mintLen + metadataLen);
 
-        const transaction = new Transaction().add(
-            SystemProgram.createAccount({
-                fromPubkey: wallet.publicKey,
-                newAccountPubkey: mintKeypair.publicKey,
-                space: mintLen,
-                lamports,
-                programId: TOKEN_2022_PROGRAM_ID,
-            }),
-            createInitializeMetadataPointerInstruction(mintKeypair.publicKey, wallet.publicKey, mintKeypair.publicKey, TOKEN_2022_PROGRAM_ID),
-            createInitializeMintInstruction(mintKeypair.publicKey, coinDecimals , wallet.publicKey, null, TOKEN_2022_PROGRAM_ID),
-            createInitializeInstruction({
-                programId: TOKEN_2022_PROGRAM_ID,
-                mint: mintKeypair.publicKey,
-                metadata: mintKeypair.publicKey,
-                name: metadata.name,
-                symbol: metadata.symbol,
-                uri: metadata.uri,
-                mintAuthority: wallet.publicKey,
-                updateAuthority: wallet.publicKey,
-            }),
-        );
+        // const transaction = new Transaction().add(
+        //     SystemProgram.createAccount({
+        //         fromPubkey: wallet.publicKey,
+        //         newAccountPubkey: mintKeypair.publicKey,
+        //         space: mintLen,
+        //         lamports,
+        //         programId: TOKEN_2022_PROGRAM_ID,
+        //     }),
+        //     createInitializeMetadataPointerInstruction(mintKeypair.publicKey, wallet.publicKey, mintKeypair.publicKey, TOKEN_2022_PROGRAM_ID),
+        //     createInitializeMintInstruction(mintKeypair.publicKey, coinDecimals , wallet.publicKey, null, TOKEN_2022_PROGRAM_ID),
+        //     createInitializeInstruction({
+        //         programId: TOKEN_2022_PROGRAM_ID,
+        //         mint: mintKeypair.publicKey,
+        //         metadata: mintKeypair.publicKey,
+        //         name: metadata.name,
+        //         symbol: metadata.symbol,
+        //         uri: metadata.uri,
+        //         mintAuthority: wallet.publicKey,
+        //         updateAuthority: wallet.publicKey,
+        //     }),
+        // );
             
-        transaction.feePayer = wallet.publicKey;
-        transaction.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
-        transaction.partialSign(mintKeypair);
+        // transaction.feePayer = wallet.publicKey;
+        // transaction.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
+        // transaction.partialSign(mintKeypair);
 
-        await wallet.sendTransaction(transaction, connection);
+        // await wallet.sendTransaction(transaction, connection);
 
-        console.log(`Token mint created at ${mintKeypair.publicKey.toBase58()}`);
-        const associatedToken = getAssociatedTokenAddressSync(
-            mintKeypair.publicKey,
-            wallet.publicKey,
-            false,
-            TOKEN_2022_PROGRAM_ID,
-        );
+        // console.log(`Token mint created at ${mintKeypair.publicKey.toBase58()}`);
+        // const associatedToken = getAssociatedTokenAddressSync(
+        //     mintKeypair.publicKey,
+        //     wallet.publicKey,
+        //     false,
+        //     TOKEN_2022_PROGRAM_ID,
+        // );
 
-        console.log(associatedToken.toBase58());
+        // console.log(associatedToken.toBase58());
 
-        const transaction2 = new Transaction().add(
-            createAssociatedTokenAccountInstruction(
-                wallet.publicKey,
-                associatedToken,
-                wallet.publicKey,
-                mintKeypair.publicKey,
-                TOKEN_2022_PROGRAM_ID,
-            ),
-        );
+        // const transaction2 = new Transaction().add(
+        //     createAssociatedTokenAccountInstruction(
+        //         wallet.publicKey,
+        //         associatedToken,
+        //         wallet.publicKey,
+        //         mintKeypair.publicKey,
+        //         TOKEN_2022_PROGRAM_ID,
+        //     ),
+        // );
 
-        await wallet.sendTransaction(transaction2, connection);
+        // await wallet.sendTransaction(transaction2, connection);
         
-        const transaction3 = new Transaction().add(
-            createMintToInstruction(mintKeypair.publicKey, associatedToken, wallet.publicKey, cointInitialSupply, [], TOKEN_2022_PROGRAM_ID)
-        );
+        // const transaction3 = new Transaction().add(
+        //     createMintToInstruction(mintKeypair.publicKey, associatedToken, wallet.publicKey, cointInitialSupply, [], TOKEN_2022_PROGRAM_ID)
+        // );
 
-        await wallet.sendTransaction(transaction3, connection);
+        // await wallet.sendTransaction(transaction3, connection);
 
         console.log("Minted!")
     }

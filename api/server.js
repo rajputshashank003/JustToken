@@ -41,7 +41,8 @@ app.post(
 
         const image = req.file.path;
         const key = walletKey + name + symbol + mintKey;
-
+        console.log(key);
+        
         const data = new MetaData({
             name,
             symbol,
