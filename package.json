@@ -7,7 +7,7 @@
     "dev": "vite",
     "start": "cd api && npm start",
     "prebuild": "npm run install-backend && npm run install-client",
-    "install-backend": "cd api && npm install",
+    "install-backend": "cd api && npm install --legacy-peer-deps",
     "install-client": "cd client && npm install",
     "build": "cd client && npm run build",
     "postbuild": " npm run remove_build && mv -f client/dist api/public/",
