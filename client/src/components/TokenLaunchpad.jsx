@@ -49,7 +49,7 @@ export function TokenLaunchpad() {
             return ;
         } else {
             console.log(response);
-            uri = response.data.imageUrl;
+            uri = response.data;
         }
         
         const metadata = {
