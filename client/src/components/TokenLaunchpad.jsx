@@ -189,7 +189,7 @@ export function TokenLaunchpad() {
     }
 
     const walletButtonStyle = {
-        width: window.innerWidth < 600 ? "20rem" : "24rem",
+        width: window.innerWidth < 600 ? "10rem" : "24rem",
         borderRadius: "0.75rem",
         color: "#C7F284",
         backgroundColor: "#2D3D3D",
